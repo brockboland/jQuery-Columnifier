@@ -1,21 +1,24 @@
 // Run on page load
-$(updateColumns);
+$(function() { updateColumns(false); });
 
 // Run on window resize (incomplete)
-$(window).resize(updateColumns);
+$(window).resize(function() { updateColumns(true); });
 
 
 
 function updateColumns() {
   $('.columnify').each(function(){
+    $('#counter').text(parseInt($('#counter').text()) + 1);
     var mainBox = $(this);
     mainBox.addClass('clearfix');
     
     // Move all P tags out of the columns and into the main box
-    $('column', mainBox).each(function() {
-      mainBox.append($(this).children('p'));
-      $(this).remove();
+    $('.column', mainBox).each(function() {
+      $(this).children('p').each(function() {
+        mainBox.append(this);
+      });
     });
+    $('.column', mainBox).remove();
     
     // Create the first column
     var columns = [];
@@ -26,7 +29,7 @@ function updateColumns() {
     // Move all P tags into the new column
     columns[currentColumn].append(mainBox.children('p'));
     mainBox.append(columns[currentColumn]);
-    
+
     // Loop while the box is still taller than the window frame
     while(mainBox.height() > $(window).height()) {
       // Check if the last columns has only one P tag in it. If so, we can't get any smaller

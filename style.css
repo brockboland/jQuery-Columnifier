@@ -1,11 +1,13 @@
 .column {
-  width: 300px;
+  width: 150px;
   float: left;
   margin: 15px;
   border-bottom: 3px solid #ccc;
 }
 
 
+
+/* Clearfix */
 .clearfix:after {
 	content: ".";
 	display: block;
