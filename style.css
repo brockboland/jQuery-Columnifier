@@ -1,8 +1,9 @@
 .column {
-  width: 150px;
+  width: 200px;
   float: left;
-  margin: 15px;
+  margin: 0 10px;
   border-bottom: 3px solid #ccc;
+  font-size: 0.7em;
 }
 
 

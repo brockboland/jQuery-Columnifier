@@ -1,14 +1,27 @@
 // Run on page load
-$(function() { updateColumns(false); });
+//$(updateColumns);
 
 // Run on window resize (incomplete)
-$(window).resize(function() { updateColumns(true); });
+//$(window).resize(updateColumns);
+
+
+$(tokenTest);
+function tokenTest() {
+  var text = $('.columnify').children('p:first').text();
+  $('.columnify').children('p').remove();
+  $('.columnify').append($('<p></p>').text(text));
+  var tokenizer = new $.tokenizer([/(\w+ )/], function( src, real, re ){
+  	return src;
+  });
+  
+  var tokens = tokenizer.parse(text);
+  $('.columnify').append($('<p></p>').html(tokens.join('<br>')));
+}
 
 
 
 function updateColumns() {
   $('.columnify').each(function(){
-    $('#counter').text(parseInt($('#counter').text()) + 1);
     var mainBox = $(this);
     mainBox.addClass('clearfix');
     
@@ -31,12 +44,12 @@ function updateColumns() {
     mainBox.append(columns[currentColumn]);
 
     // Loop while the box is still taller than the window frame
-    while(mainBox.height() > $(window).height()) {
+    while(mainBox.height() - $(window).height() > -20) {
       // Check if the last columns has only one P tag in it. If so, we can't get any smaller
       if(columns[currentColumn].children('p').length <= 1) break;
       
       // While the current column is taller then the window, keep moving P tags over to the next column
-      while(columns[currentColumn].height() > $(window).height() && columns[currentColumn].children('p').length > 1) {
+      while(columns[currentColumn].height() - $(window).height() > -20 && columns[currentColumn].children('p').length > 1) {
         // If the next column doesn't exist yet, add it
         if(!(columns[currentColumn + 1])) {
           columns[currentColumn + 1] = $('<div></div>').addClass('column');
